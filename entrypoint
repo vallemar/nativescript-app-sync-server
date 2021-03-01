@@ -1,0 +1,10 @@
+#!/bin/bash
+while [[ $DB_SETUP != "success." ]]
+do
+    echo "Attempting to setup database."
+    DB_SETUP=$(/opt/nativescript-app-sync-server/bin/db init --dbhost "db" --dbport "3306" --dbname "codepush" --dbuser "root" --dbpassword "root")
+done
+
+echo "Successfully setup database."
+
+pm2-runtime start /opt/nativescript-app-sync-server/process.json 
