@@ -3,25 +3,44 @@ version: '3.1'
 services:
 
   db:
-    image: mariadb:10.5
+    image: docker.io/library/mariadb:10.5
     restart: always
+    volumes:
+      - data-mysql:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: codepush
 
+  redis:
+    image: docker.io/library/redis:4.0.11-alpine
+    volumes:
+      - data-redis:/data
+    ports:
+      - 6379:6379
+ 
+
   adminer:
-    image: adminer
+    image: docker.io/library/adminer
     restart: always
     ports:
       - 8080:8080
 
   appsync:
-    label: appsync
     build: .
     restart: always
+    volumes:
+      - data-storage:/data/storage
+      - data-tmp:/data/tmp
     depends_on:
       - db
+      - redis
     ports:
       - 3000:3000
+
+volumes:
+  data-storage:
+  data-tmp:
+  data-mysql:
+  data-redis:

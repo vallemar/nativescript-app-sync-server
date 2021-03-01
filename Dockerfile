@@ -1,6 +1,4 @@
-FROM quay.io/centos/centos:8
-
-RUN yum install -y @nodejs
+FROM docker.io/library/node:15.10-alpine3.10
 
 RUN npm i -g pm2
 

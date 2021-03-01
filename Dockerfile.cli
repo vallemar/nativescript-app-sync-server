@@ -1,0 +1,5 @@
+FROM docker.io/library/node:15.10-alpine3.10
+
+RUN npm i -g nativescript-app-sync-cli
+
+CMD ["/bin/bash"] 
