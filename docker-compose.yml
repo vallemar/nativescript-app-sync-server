@@ -7,6 +7,7 @@ services:
     restart: always
     volumes:
       - data-mysql:/var/lib/mysql
+      - ./docker/sql/codepush-all.sql:/docker-entrypoint-initdb.d/codepush-all.sql
     ports:
       - 3306:3306
     environment:
@@ -19,7 +20,6 @@ services:
       - data-redis:/data
     ports:
       - 6379:6379
- 
 
   adminer:
     image: docker.io/library/adminer
@@ -38,6 +38,19 @@ services:
       - redis
     ports:
       - 3000:3000
+    environment:
+      DOWNLOAD_URL: "http://localhost:3000/download"
+      MYSQL_HOST: "db"
+      MYSQL_PORT: "3306"
+      MYSQL_USERNAME: "codepush"
+      MYSQL_PASSWORD: "123456"
+      MYSQL_DATABASE: "codepush"
+      STORAGE_DIR: "/data/storage"
+      DATA_DIR: "/data/tmp"
+      NODE_ENV: "production"
+      CONFIG_FILE: "/config.js"
+      RDS_HOST: "redis"
+      RDS_PORT: "6379"
 
 volumes:
   data-storage:
