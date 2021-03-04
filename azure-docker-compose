@@ -3,9 +3,7 @@ version: '3.1'
 services:
 
   db:
-    build:
-      dockerfile: Dockerfile.db
-      context: .
+    image: app-sync-db
     restart: always
     volumes:
       - data-mysql:/var/lib/mysql
@@ -21,16 +19,9 @@ services:
       - data-redis:/data
     ports:
       - 6379:6379
- 
-
-  adminer:
-    image: docker.io/library/adminer
-    restart: always
-    ports:
-      - 8080:8080
 
   appsync:
-    build: .
+    image: app-sync-server
     restart: always
     volumes:
       - data-storage:/data/storage
@@ -39,9 +30,9 @@ services:
       - db
       - redis
     ports:
-      - 3000:3000
+      - 8000:3000
     environment:
-      DOWNLOAD_URL: "http://localhost:3000/download"
+      DOWNLOAD_URL: "https://msaappsync.azurewebsites.net/download"
       MYSQL_HOST: "localhost"
       MYSQL_PORT: "3306"
       MYSQL_USERNAME: "codepush"
@@ -54,9 +45,3 @@ services:
       REDIS_HOST: "localhost"
       REDIS_PORT: "6379"
 
-
-volumes:
-  data-storage:
-  data-tmp:
-  data-mysql:
-  data-redis:
