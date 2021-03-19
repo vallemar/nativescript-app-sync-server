@@ -4,11 +4,11 @@ var config = {};
 config.development = {
   // Config for database, only support mysql.
   db: {
-    username: process.env.RDS_USERNAME || "root",
-    password: process.env.RDS_PASSWORD || "root",
-    database: process.env.DATA_BASE || "codepush",
-    host: process.env.RDS_HOST || "127.0.0.1",
-    port: process.env.RDS_PORT || 3306,
+    username: process.env.MYSQL_USERNAME || "root",
+    password: process.env.MYSQL_PASSWORD ||  "root",
+    database: process.env.MYSQL_DATABASE || "codepush",
+    host: process.env.MYSQL_HOST || "localhost",
+    port: process.env.MYSQL_PORT || 3306,
     dialect: "mysql",
     logging: true,
     operatorsAliases: false,
@@ -98,7 +98,7 @@ config.development = {
   // Config for redis (register module, tryLoginTimes module)
   redis: {
     default: {
-      url: process.env.REDIS_URL,
+      url: `redis://${process.env.RDS_HOST}:${process.env.RDS_PORT}`,
       retry_strategy: function (options) {
         if (options.error.code === 'ECONNREFUSED') {
           // End reconnecting on a specific error and flush all commands with a individual error
@@ -112,6 +112,7 @@ config.development = {
           // End reconnecting with built in error
           return undefined;
         }
+        console.log("Same error REDIS: " + options.error)
         // reconnect after
         return Math.max(options.attempt * 100, 3000);
       }
