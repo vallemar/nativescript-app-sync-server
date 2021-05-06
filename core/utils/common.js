@@ -298,11 +298,16 @@ common.getBlobDownloadUrl = function (blobUrl) {
   if ( storageType === 'local') {
     fileName = blobUrl.substr(0, 2).toLowerCase() + '/' + blobUrl;
   }
+  //TODO: Not working, error
+ /*
   if (!validator.isURL(downloadUrl)) {
     var e = new AppError.AppError(`Please config ${storageType}.downloadUrl in config.js`);
     log.error(e);
     throw e;
   }
+  */
+
+
   return `${downloadUrl}/${fileName}`
 };
 

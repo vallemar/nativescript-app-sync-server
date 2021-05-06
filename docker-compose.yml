@@ -27,7 +27,7 @@ services:
     image: docker.io/library/adminer
     restart: always
     ports:
-      - 8080:8080
+      - 9090:8080
 
   appsync:
     build: .
@@ -41,7 +41,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      DOWNLOAD_URL: "http://localhost:3000/download"
+      LOCAL_DOWNLOAD_URL: "http://192.168.1.23:3000/download"
       MYSQL_HOST: "db"
       MYSQL_PORT: "3306"
       MYSQL_USERNAME: "codepush"
@@ -53,6 +53,7 @@ services:
       CONFIG_FILE: "/opt/nativescript-app-sync-server/config/config.js"
       RDS_HOST: "redis"
       RDS_PORT: "6379"
+      STORAGE_TYPE: "local"
 
 volumes:
   data-storage:
